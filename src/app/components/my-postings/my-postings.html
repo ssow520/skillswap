@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="page-header">
+      <h1>My Postings</h1>
+      <p>Jobs you've published on SkillSwap</p>
+      <a routerLink="/jobs/new" class="btn btn-primary" style="margin-top:16px">+ Post New Job</a>
+    </div>
+  
+    @if (error) { <div class="error-msg">{{ error }}</div> }
+    @if (loading) { <div class="loading">Loading…</div> }
+    @else if (jobs.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3>No postings yet</h3>
+        <p>Post your first job to get started</p>
+      </div>
+    } @else {
+      <div class="jobs-grid">
+        @for (job of jobs; track job.id) {
+          <a [routerLink]="['/jobs', job.id]" class="job-card card">
+            <div class="job-top">
+              <span class="job-category">{{ job.category }}</span>
+              <span class="badge badge-{{ job.status }}">{{ job.status.replace('_', ' ') }}</span>
+            </div>
+            <h3>{{ job.title }}</h3>
+            <p class="job-desc">{{ job.description | slice:0:120 }}…</p>
+            <div class="job-budget">${{ job.budget | number }}</div>
+          </a>
+        }
+      </div>
+    }
+  </div>

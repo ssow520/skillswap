@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="page-header">
+      <h1>Post a Job</h1>
+      <p>Describe your project and receive proposals from talented freelancers</p>
+    </div>
+  
+    <div class="form-card card">
+      @if (error) { <div class="error-msg">{{ error }}</div> }
+  
+      <div class="form-group">
+        <label>Job Title</label>
+        <input type="text" [(ngModel)]="form.title" placeholder="e.g. Build a landing page in Angular" />
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select [(ngModel)]="form.category">
+          <option value="">Select a category</option>
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Budget ($)</label>
+        <input type="number" [(ngModel)]="form.budget" placeholder="e.g. 500" min="1" />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea [(ngModel)]="form.description" placeholder="Describe the project in detail…" rows="6"></textarea>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" (click)="onSubmit()" [disabled]="loading">
+          {{ loading ? 'Posting…' : 'Post Job' }}
+        </button>
+        <a routerLink="/jobs" class="btn btn-secondary">Cancel</a>
+      </div>
+    </div>
+  </div>

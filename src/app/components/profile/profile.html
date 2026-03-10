@@ -1,0 +1,61 @@
+<div class="container">
+    @if (loading) { <div class="loading">Loading profile…</div> }
+    @else if (error) { <div class="error-msg" style="margin-top:40px">{{ error }}</div> }
+    @else if (user) {
+      <div class="profile-layout">
+        <aside class="profile-sidebar">
+          <div class="profile-avatar">{{ user.name[0] }}</div>
+          <h1 class="profile-name">{{ user.name }}</h1>
+          <div class="profile-handle">&#64;{{ user.username }}</div>
+          <div class="profile-stats">
+            <div class="stat">
+              <div class="stat-val">{{ user.rating_avg | number:'1.1-1' }}</div>
+              <div class="stat-lbl">Rating</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">{{ user.completed_jobs }}</div>
+              <div class="stat-lbl">Jobs Done</div>
+            </div>
+          </div>
+          @if (user.skills?.length > 0) {
+            <div class="profile-skills">
+              @for (skill of user.skills; track skill) {
+                <span class="skill-tag">{{ skill }}</span>
+              }
+            </div>
+          }
+        </aside>
+  
+        <div class="profile-main">
+          <div class="section">
+            <h2>About</h2>
+            <p class="bio">{{ user.bio || 'No bio provided.' }}</p>
+          </div>
+          <div class="section">
+            <h2>Reviews ({{ reviews.length }})</h2>
+            @if (reviews.length === 0) {
+              <p class="no-reviews">No reviews yet.</p>
+            } @else {
+              <div class="reviews-list">
+                @for (r of reviews; track r.id) {
+                  <div class="review-card">
+                    <div class="review-top">
+                      <div class="stars">
+                        @for (s of starsArray(r.rating); track s) {
+                          <span [class.filled]="s <= r.rating">★</span>
+                        }
+                      </div>
+                      <span class="review-date">{{ r.created_at | date:'mediumDate' }}</span>
+                    </div>
+                    @if (r.comment) {
+                      <p class="review-comment">{{ r.comment }}</p>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>

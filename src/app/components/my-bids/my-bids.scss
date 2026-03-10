@@ -1,0 +1,9 @@
+.bids-list { display: flex; flex-direction: column; gap: 16px; padding-bottom: 60px; }
+.bid-card { cursor: default; }
+.bid-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.bid-job-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--text); &:hover { color: var(--accent-light); } }
+.bid-job-cat { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.bid-body { margin-bottom: 16px; }
+.bid-price { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--success); margin-bottom: 10px; }
+.bid-letter { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.btn-sm { padding: 6px 14px; font-size: 12px; }

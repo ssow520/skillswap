@@ -1,0 +1,30 @@
+<nav class="navbar">
+    <div class="nav-inner">
+      <a routerLink="/" class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">SkillSwap</span>
+      </a>
+  
+      <div class="nav-links">
+        <a routerLink="/jobs" routerLinkActive="active">Explore Jobs</a>
+        @if (currentUser) {
+          <a routerLink="/my-postings" routerLinkActive="active">My Postings</a>
+          <a routerLink="/my-bids" routerLinkActive="active">My Bids</a>
+          <a routerLink="/jobs/new" class="btn btn-primary btn-sm">+ Post a Job</a>
+          <div class="user-menu" (click)="toggleMenu()">
+            <div class="avatar">{{ currentUser.name[0] }}</div>
+            <span class="username">{{ currentUser.username }}</span>
+            @if (menuOpen) {
+              <div class="dropdown">
+                <a [routerLink]="['/profile', currentUser.username]" (click)="menuOpen=false">My Profile</a>
+                <button (click)="logout()">Sign Out</button>
+              </div>
+            }
+          </div>
+        } @else {
+          <a routerLink="/login" routerLinkActive="active">Login</a>
+          <a routerLink="/signup" class="btn btn-primary btn-sm">Sign Up</a>
+        }
+      </div>
+    </div>
+  </nav>

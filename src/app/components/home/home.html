@@ -1,0 +1,61 @@
+<section class="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-tag">Freelance Marketplace</div>
+        <h1 class="hero-title">Where Skills <span class="accent">Meet</span> Opportunity</h1>
+        <p class="hero-subtitle">Connect with talented freelancers or find your next project on SkillSwap.</p>
+        <div class="hero-actions">
+          <a routerLink="/jobs" class="btn btn-primary btn-lg">Explore Jobs</a>
+          @if (!isLoggedIn) {
+            <a routerLink="/signup" class="btn btn-secondary btn-lg">Join Free</a>
+          } @else {
+            <a routerLink="/jobs/new" class="btn btn-secondary btn-lg">Post a Job</a>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  @if (stats) {
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">{{ stats.total_users | number }}</div>
+            <div class="stat-label">Active Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">{{ stats.active_jobs | number }}</div>
+            <div class="stat-label">Open Jobs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${{ stats.total_value_moved | number }}</div>
+            <div class="stat-label">Value Exchanged</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+  
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📋</div>
+          <h3>Post Jobs</h3>
+          <p>Describe your project and budget. Receive proposals from skilled freelancers quickly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💡</div>
+          <h3>Submit Proposals</h3>
+          <p>Browse open jobs and pitch your expertise with a tailored proposal and price.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <h3>Get It Done</h3>
+          <p>Accept the best proposal, complete the work, and leave honest reviews.</p>
+        </div>
+      </div>
+    </div>
+  </section>

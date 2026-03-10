@@ -1,0 +1,54 @@
+.profile-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; padding: 48px 0 60px; }
+
+.profile-sidebar { text-align: center; }
+
+.profile-avatar {
+  width: 80px; height: 80px; border-radius: 50%; background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 2rem; font-weight: 800;
+  color: #fff; text-transform: uppercase; margin: 0 auto 16px;
+}
+
+.profile-name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+.profile-handle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+.profile-stats {
+  display: flex; gap: 24px; justify-content: center;
+  padding: 16px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 20px;
+
+  .stat {
+    .stat-val { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--accent-light); }
+    .stat-lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  }
+}
+
+.profile-skills {
+  display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+  .skill-tag { padding: 4px 12px; background: var(--accent-dim); color: var(--accent-light); border-radius: 20px; font-size: 12px; }
+}
+
+.section {
+  margin-bottom: 36px;
+  h2 {
+    font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);
+    margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+}
+
+.bio { color: var(--text-muted); line-height: 1.8; }
+.no-reviews { color: var(--text-muted); font-size: 14px; }
+.reviews-list { display: flex; flex-direction: column; gap: 16px; }
+
+.review-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px;
+
+  .review-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+
+  .stars span { color: var(--border); font-size: 1.1rem; &.filled { color: var(--warning); } }
+  .review-date { font-size: 12px; color: var(--text-dim); }
+}
+
+.review-comment { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+@media (max-width: 768px) { .profile-layout { grid-template-columns: 1fr; } }

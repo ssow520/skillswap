@@ -1,0 +1,129 @@
+.job-detail-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    padding: 40px 0 60px;
+  }
+  
+  .job-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .job-meta-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  
+  .job-category {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  
+  .job-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+  
+  .job-budget { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--success); }
+  
+  .section {
+    margin-bottom: 32px;
+  
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  .job-description { color: var(--text-muted); line-height: 1.8; white-space: pre-wrap; }
+  
+  .user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s;
+  
+    &:hover { border-color: var(--accent); }
+  }
+  
+  .avatar-sm {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  
+  .user-name { font-weight: 600; font-size: 14px; }
+  .user-handle { font-size: 12px; color: var(--text-muted); }
+  .form-actions { display: flex; gap: 10px; margin-top: 8px; }
+  
+  .star-rating {
+    display: flex;
+    gap: 4px;
+  
+    .star {
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: var(--border);
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.15s;
+  
+      &.active { color: var(--warning); }
+    }
+  }
+  
+  .proposals-panel {
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+  }
+  
+  .proposals-list { display: flex; flex-direction: column; gap: 16px; }
+  
+  .proposal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+  
+    .proposal-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .proposal-price { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--success); }
+    .proposal-letter { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+    .proposal-user { font-size: 12px; color: var(--accent-light); display: block; margin-bottom: 10px; }
+    .btn-sm { padding: 6px 14px; font-size: 12px; }
+  }
+  
+  @media (max-width: 900px) {
+    .job-detail-layout { grid-template-columns: 1fr; }
+  }

@@ -1,0 +1,89 @@
+.auth-page {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+  }
+  
+  .auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    animation: fadeUp 0.4s ease both;
+  }
+  
+  .auth-header {
+    text-align: center;
+    margin-bottom: 32px;
+  
+    .auth-logo { font-size: 2.5rem; margin-bottom: 16px; }
+  
+    h1 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+  
+    p { color: var(--text-muted); font-size: 14px; }
+  }
+  
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .btn-full { width: 100%; justify-content: center; padding: 12px; font-size: 15px; margin-top: 8px; }
+  
+  .auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+  
+    a { color: var(--accent-light); font-weight: 500; }
+  }
+  
+  .skills-input {
+    display: flex;
+    gap: 8px;
+  
+    input { flex: 1; }
+  }
+  
+  .skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-dim);
+      color: var(--accent-light);
+      border-radius: 20px;
+      font-size: 12px;
+  
+      button {
+        background: none;
+        border: none;
+        color: var(--accent-light);
+        cursor: pointer;
+        padding: 0;
+        font-size: 14px;
+        line-height: 1;
+      }
+    }
+  }
+  
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }

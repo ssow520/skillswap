@@ -29,7 +29,7 @@ export class MyBids implements OnInit {
     });
   }
 
-  deleteProposal(id: number): void {
+  deleteProposal(id: string): void {
     this.proposalService.deleteProposal(id).subscribe({
       next: () => {
         this.successMsg = 'Proposal withdrawn.';

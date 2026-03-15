@@ -1,65 +1,88 @@
 <div class="auth-page">
-    <div class="auth-card">
-      <div class="auth-header">
-        <div class="auth-logo">⚡</div>
-        <h1>Create account</h1>
-        <p>Join the SkillSwap community today</p>
-      </div>
-  
-      @if (error) {
-        <div class="error-msg">
-          {{ error }}
-          @if (suggestedUsername) {
-            <div class="suggestion">
-              Suggested username: <strong>{{ suggestedUsername }}</strong>
-              <button class="btn-link" (click)="useSuggested()">Use this</button>
-            </div>
-          }
-        </div>
-      }
-  
-      <div class="auth-form">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" [(ngModel)]="form.name" placeholder="Jane Smith" />
-        </div>
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" [(ngModel)]="form.username" placeholder="janesmith" />
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" [(ngModel)]="form.email" placeholder="you@example.com" />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" [(ngModel)]="form.password" placeholder="••••••••" />
-        </div>
-        <div class="form-group">
-          <label>Bio</label>
-          <textarea [(ngModel)]="form.bio" placeholder="Tell us about yourself…" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Skills</label>
-          <div class="skills-input">
-            <input type="text" [(ngModel)]="skillInput" placeholder="e.g. Angular" (keyup.enter)="addSkill()" />
-            <button class="btn btn-secondary" (click)="addSkill()">Add</button>
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">⚡</div>
+      <h1>Create account</h1>
+      <p>Join the SkillSwap community today</p>
+    </div>
+
+    <div class="role-selector">
+      <button
+        class="role-btn"
+        [class.active]="role === 'freelancer'"
+        (click)="selectRole('freelancer')">
+        <span class="role-icon">💼</span>
+        <span class="role-label">Freelancer</span>
+        <span class="role-desc">Find jobs & get hired</span>
+      </button>
+      <button
+        class="role-btn"
+        [class.active]="role === 'client'"
+        (click)="selectRole('client')">
+        <span class="role-icon">🏢</span>
+        <span class="role-label">Client</span>
+        <span class="role-desc">Post jobs & hire talent</span>
+      </button>
+    </div>
+
+    @if (error) {
+      <div class="error-msg">
+        {{ error }}
+        @if (suggestedUsername) {
+          <div class="suggestion">
+            Suggested username: <strong>{{ suggestedUsername }}</strong>
+            <button class="btn-link" (click)="useSuggested()">Use this</button>
           </div>
-          @if (form.skills.length > 0) {
-            <div class="skills-tags">
-              @for (skill of form.skills; track skill) {
-                <span class="tag">{{ skill }} <button (click)="removeSkill(skill)">×</button></span>
-              }
-            </div>
-          }
+        }
+      </div>
+    }
+
+    <div class="auth-form">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" [(ngModel)]="form.name" placeholder="Jane Smith" />
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" [(ngModel)]="form.username" placeholder="janesmith" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="form.email" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="form.password" placeholder="••••••••" />
+      </div>
+      <div class="form-group">
+        <label>Bio</label>
+        <textarea [(ngModel)]="form.bio"
+          [placeholder]="role === 'client' ? 'Describe your company or projects…' : 'Tell us about your skills and experience…'"
+          rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>{{ role === 'client' ? 'Areas of Interest' : 'Skills' }}</label>
+        <div class="skills-input">
+          <input type="text" [(ngModel)]="skillInput"
+            [placeholder]="role === 'client' ? 'e.g. Web Development' : 'e.g. Angular'"
+            (keyup.enter)="addSkill()" />
+          <button class="btn btn-secondary" (click)="addSkill()">Add</button>
         </div>
-        <button class="btn btn-primary btn-full" (click)="onSubmit()" [disabled]="loading">
-          {{ loading ? 'Creating account…' : 'Create Account' }}
-        </button>
+        @if (form.skills.length > 0) {
+          <div class="skills-tags">
+            @for (skill of form.skills; track skill) {
+              <span class="tag">{{ skill }} <button (click)="removeSkill(skill)">×</button></span>
+            }
+          </div>
+        }
       </div>
-  
-      <div class="auth-footer">
-        Already have an account? <a routerLink="/login">Sign in</a>
-      </div>
+      <button class="btn btn-primary btn-full" (click)="onSubmit()" [disabled]="loading">
+        {{ loading ? 'Creating account…' : 'Join as ' + (role === 'client' ? 'Client' : 'Freelancer') }}
+      </button>
+    </div>
+
+    <div class="auth-footer">
+      Already have an account? <a routerLink="/login">Sign in</a>
     </div>
   </div>
+</div>

@@ -3,8 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
+export type UserRole = 'client' | 'freelancer';
+
 export interface User {
-  id: number;
+  id: string;
   name: string;
   username: string;
   email: string;
@@ -12,6 +14,7 @@ export interface User {
   skills: string[];
   rating_avg: number;
   completed_jobs: number;
+  role?: UserRole;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -31,17 +34,23 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/auth/register`, data);
   }
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<{ token: string; user: User }>(`${this.baseUrl}/auth/login`, { email, password }).pipe(
+  login(email: string, password: string, role: UserRole): Observable<any> {
+    return this.http.post<{ token: string; user: User }>(
+      `${this.baseUrl}/auth/login`,
+      { email, password }
+    ).pipe(
       tap(res => {
         localStorage.setItem('token', res.token);
-        this.currentUserSubject.next(res.user);
+        localStorage.setItem('userRole', role);
+        const userWithRole = { ...res.user, role };
+        this.currentUserSubject.next(userWithRole);
       })
     );
   }
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
@@ -50,8 +59,20 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  getRole(): UserRole | null {
+    return localStorage.getItem('userRole') as UserRole | null;
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  isClient(): boolean {
+    return this.getRole() === 'client';
+  }
+
+  isFreelancer(): boolean {
+    return this.getRole() === 'freelancer';
   }
 
   getCurrentUser(): User | null {
@@ -60,7 +81,10 @@ export class AuthService {
 
   loadCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/users/me`).pipe(
-      tap(user => this.currentUserSubject.next(user))
+      tap(user => {
+        const role = this.getRole();
+        this.currentUserSubject.next({ ...user, role: role ?? undefined });
+      })
     );
   }
 }

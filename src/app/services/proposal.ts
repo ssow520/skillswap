@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Proposal {
-  id: number;
-  job_id: number;
-  freelance_id: number;
+  id: string;
+  job_id: string;
+  freelance_id: string;
   price: number;
   cover_letter: string;
   status: 'pending' | 'accepted' | 'rejected';
@@ -20,7 +20,7 @@ export class ProposalService {
 
   constructor(private http: HttpClient) {}
 
-  acceptProposal(proposalId: number): Observable<any> {
+  acceptProposal(proposalId: string): Observable<any> {
     return this.http.patch(`${this.baseUrl}/proposals/${proposalId}/accept`, {});
   }
 
@@ -28,7 +28,7 @@ export class ProposalService {
     return this.http.get<Proposal[]>(`${this.baseUrl}/proposals/my-bids`);
   }
 
-  deleteProposal(proposalId: number): Observable<any> {
+  deleteProposal(proposalId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/proposals/${proposalId}`);
   }
 }

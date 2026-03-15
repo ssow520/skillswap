@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Job {
-  id: number;
+  id: string;
   title: string;
   description: string;
   budget: number;
   category: string;
   status: 'open' | 'in_progress' | 'completed';
-  owner_id: number;
-  freelance_id?: number;
+  owner_id: string;
+  freelance_id?: string;
+  freelancer_id?: string;
   created_at: string;
   owner?: any;
   freelance?: any;
@@ -30,15 +31,15 @@ export class JobService {
     return this.http.post(`${this.baseUrl}/jobs`, data);
   }
 
-  getJob(id: number): Observable<Job> {
+  getJob(id: string): Observable<Job> {
     return this.http.get<Job>(`${this.baseUrl}/jobs/${id}`);
   }
 
-  updateJob(id: number, data: any): Observable<any> {
+  updateJob(id: string, data: any): Observable<any> {
     return this.http.patch(`${this.baseUrl}/jobs/${id}`, data);
   }
 
-  completeJob(id: number): Observable<any> {
+  completeJob(id: string): Observable<any> {
     return this.http.patch(`${this.baseUrl}/jobs/${id}/complete`, {});
   }
 
@@ -46,15 +47,15 @@ export class JobService {
     return this.http.get<Job[]>(`${this.baseUrl}/jobs/my-postings`);
   }
 
-  getProposals(jobId: number): Observable<any[]> {
+  getProposals(jobId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/jobs/${jobId}/proposals`);
   }
 
-  submitProposal(jobId: number, data: { price: number; cover_letter: string }): Observable<any> {
+  submitProposal(jobId: string, data: { price: number; cover_letter: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/jobs/${jobId}/proposals`, data);
   }
 
-  submitReview(jobId: number, data: { target_id: number; rating: number; comment?: string }): Observable<any> {
+  submitReview(jobId: string, data: { target_id: string; rating: number; comment?: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/jobs/${jobId}/reviews`, data);
   }
 }

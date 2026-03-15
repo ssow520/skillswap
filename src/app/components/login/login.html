@@ -1,31 +1,50 @@
 <div class="auth-page">
-    <div class="auth-card">
-      <div class="auth-header">
-        <div class="auth-logo">⚡</div>
-        <h1>Welcome back</h1>
-        <p>Sign in to your SkillSwap account</p>
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">⚡</div>
+      <h1>Welcome back</h1>
+      <p>Sign in to your SkillSwap account</p>
+    </div>
+
+    <div class="role-selector">
+      <button
+        class="role-btn"
+        [class.active]="role === 'freelancer'"
+        (click)="selectRole('freelancer')">
+        <span class="role-icon">💼</span>
+        <span class="role-label">Freelancer</span>
+        <span class="role-desc">Find jobs & submit proposals</span>
+      </button>
+      <button
+        class="role-btn"
+        [class.active]="role === 'client'"
+        (click)="selectRole('client')">
+        <span class="role-icon">🏢</span>
+        <span class="role-label">Client</span>
+        <span class="role-desc">Post jobs & hire talent</span>
+      </button>
+    </div>
+
+    @if (error) {
+      <div class="error-msg">{{ error }}</div>
+    }
+
+    <div class="auth-form">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="email" placeholder="you@example.com" (keyup.enter)="onSubmit()" />
       </div>
-  
-      @if (error) {
-        <div class="error-msg">{{ error }}</div>
-      }
-  
-      <div class="auth-form">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" [(ngModel)]="email" placeholder="you@example.com" (keyup.enter)="onSubmit()" />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" [(ngModel)]="password" placeholder="••••••••" (keyup.enter)="onSubmit()" />
-        </div>
-        <button class="btn btn-primary btn-full" (click)="onSubmit()" [disabled]="loading">
-          {{ loading ? 'Signing in…' : 'Sign In' }}
-        </button>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="password" placeholder="••••••••" (keyup.enter)="onSubmit()" />
       </div>
-  
-      <div class="auth-footer">
-        Don't have an account? <a routerLink="/signup">Sign up</a>
-      </div>
+      <button class="btn btn-primary btn-full" (click)="onSubmit()" [disabled]="loading">
+        {{ loading ? 'Signing in…' : 'Sign in as ' + (role === 'client' ? 'Client' : 'Freelancer') }}
+      </button>
+    </div>
+
+    <div class="auth-footer">
+      Don't have an account? <a routerLink="/signup">Sign up</a>
     </div>
   </div>
+</div>

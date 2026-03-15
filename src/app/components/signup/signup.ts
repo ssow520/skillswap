@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth';
+import { AuthService, UserRole } from '../../services/auth';
 
 @Component({
   selector: 'app-signup',
@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth';
   styleUrl: './signup.scss'
 })
 export class Signup {
+  role: UserRole = 'freelancer';
   form = { name: '', username: '', email: '', password: '', bio: '', skills: [] as string[] };
   skillInput = '';
   error = '';
@@ -19,6 +20,10 @@ export class Signup {
   loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  selectRole(r: UserRole): void {
+    this.role = r;
+  }
 
   addSkill(): void {
     const s = this.skillInput.trim();
@@ -44,8 +49,14 @@ export class Signup {
 
     this.authService.register(this.form).subscribe({
       next: () => {
-        this.authService.login(email, password).subscribe({
-          next: () => this.router.navigate(['/']),
+        this.authService.login(email, password, this.role).subscribe({
+          next: () => {
+            if (this.role === 'client') {
+              this.router.navigate(['/jobs/new']);
+            } else {
+              this.router.navigate(['/jobs']);
+            }
+          },
           error: () => this.router.navigate(['/login'])
         });
       },

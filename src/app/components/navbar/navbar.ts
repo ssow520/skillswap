@@ -20,6 +20,14 @@ export class Navbar implements OnInit {
     this.authService.currentUser$.subscribe(user => this.currentUser = user);
   }
 
+  get isClient(): boolean {
+    return this.authService.isClient();
+  }
+
+  get isFreelancer(): boolean {
+    return this.authService.isFreelancer();
+  }
+
   logout(): void {
     this.authService.logout();
     this.menuOpen = false;

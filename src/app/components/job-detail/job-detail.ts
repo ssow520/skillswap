@@ -26,7 +26,7 @@ export class JobDetail implements OnInit {
   proposalLoading = false;
   showProposalForm = false;
 
-  reviewForm = { target_id: null as number | null, rating: 0, comment: '' };
+  reviewForm = { target_id: null as string | null, rating: 0, comment: '' };
   reviewError = '';
   reviewSuccess = '';
   showReviewForm = false;
@@ -40,11 +40,11 @@ export class JobDetail implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id')!;
     this.loadJob(id);
   }
 
-  loadJob(id: number): void {
+  loadJob(id: string): void {
     this.jobService.getJob(id).subscribe({
       next: job => {
         this.job = job;
@@ -67,7 +67,8 @@ export class JobDetail implements OnInit {
   }
 
   get isFreelance(): boolean {
-    return !!this.currentUser && !!this.job && this.currentUser.id === this.job.freelance_id;
+    return !!this.currentUser && !!this.job &&
+      (this.currentUser.id === this.job.freelance_id || this.currentUser.id === this.job.freelancer_id);
   }
 
   get canPropose(): boolean {
@@ -105,7 +106,7 @@ export class JobDetail implements OnInit {
     });
   }
 
-  acceptProposal(proposalId: number): void {
+  acceptProposal(proposalId: string): void {
     this.proposalService.acceptProposal(proposalId).subscribe({
       next: () => {
         this.successMsg = 'Proposal accepted! Job is now in progress.';
@@ -125,9 +126,9 @@ export class JobDetail implements OnInit {
     });
   }
 
-  setReviewTarget(isOwner: boolean): void {
+  setReviewTarget(targetIsOwner: boolean): void {
     if (!this.job) return;
-    this.reviewForm.target_id = isOwner ? this.job.owner_id : this.job.freelance_id!;
+    this.reviewForm.target_id = targetIsOwner ? this.job.owner_id : (this.job.freelance_id ?? this.job.freelancer_id ?? null);
     this.showReviewForm = true;
   }
 

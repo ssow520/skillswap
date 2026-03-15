@@ -1,30 +1,47 @@
 <nav class="navbar">
-    <div class="nav-inner">
-      <a routerLink="/" class="logo">
-        <span class="logo-icon">⚡</span>
-        <span class="logo-text">SkillSwap</span>
-      </a>
-  
-      <div class="nav-links">
-        <a routerLink="/jobs" routerLinkActive="active">Explore Jobs</a>
-        @if (currentUser) {
-          <a routerLink="/my-postings" routerLinkActive="active">My Postings</a>
+  <div class="nav-inner">
+    <a routerLink="/" class="logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">SkillSwap</span>
+    </a>
+
+    <div class="nav-links">
+      @if (currentUser) {
+        @if (isFreelancer) {
+          <a routerLink="/jobs" routerLinkActive="active">Explore Jobs</a>
           <a routerLink="/my-bids" routerLinkActive="active">My Bids</a>
-          <a routerLink="/jobs/new" class="btn btn-primary btn-sm">+ Post a Job</a>
-          <div class="user-menu" (click)="toggleMenu()">
-            <div class="avatar">{{ currentUser.name[0] }}</div>
-            <span class="username">{{ currentUser.username }}</span>
-            @if (menuOpen) {
-              <div class="dropdown">
-                <a [routerLink]="['/profile', currentUser.username]" (click)="menuOpen=false">My Profile</a>
-                <button (click)="logout()">Sign Out</button>
-              </div>
-            }
-          </div>
-        } @else {
-          <a routerLink="/login" routerLinkActive="active">Login</a>
-          <a routerLink="/signup" class="btn btn-primary btn-sm">Sign Up</a>
         }
-      </div>
+        @if (isClient) {
+          <a routerLink="/jobs" routerLinkActive="active">Browse Jobs</a>
+          <a routerLink="/my-postings" routerLinkActive="active">My Postings</a>
+          <a routerLink="/jobs/new" class="btn btn-primary btn-sm">+ Post a Job</a>
+        }
+        <div class="user-menu" (click)="toggleMenu()">
+          <div class="avatar">{{ currentUser.name[0] }}</div>
+          <div class="user-info">
+            <span class="username">{{ currentUser.username }}</span>
+            <span class="role-badge" [class.client]="isClient" [class.freelancer]="isFreelancer">
+              {{ isClient ? 'Client' : 'Freelancer' }}
+            </span>
+          </div>
+          @if (menuOpen) {
+            <div class="dropdown">
+              <a [routerLink]="['/profile', currentUser.username]" (click)="menuOpen=false">My Profile</a>
+              @if (isClient) {
+                <a routerLink="/my-postings" (click)="menuOpen=false">My Postings</a>
+              } @else {
+                <a routerLink="/my-bids" (click)="menuOpen=false">My Bids</a>
+              }
+              <div class="dropdown-divider"></div>
+              <button class="logout-btn" (click)="logout()">Sign Out</button>
+            </div>
+          }
+        </div>
+      } @else {
+        <a routerLink="/jobs" routerLinkActive="active">Explore Jobs</a>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/signup" class="btn btn-primary btn-sm">Sign Up</a>
+      }
     </div>
-  </nav>
+  </div>
+</nav>

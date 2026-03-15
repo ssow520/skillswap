@@ -28,8 +28,18 @@ export class JobForm {
     this.loading = true;
     this.error = '';
     this.jobService.createJob({ title, description, budget: budget!, category }).subscribe({
-      next: (job: any) => this.router.navigate(['/jobs', job.id || job.job?.id]),
-      error: err => { this.error = err.error?.error || 'Failed to create job'; this.loading = false; }
+      next: (res: any) => {
+        const id = res?.id ?? res?.job?.id ?? res?.data?.id;
+        if (id) {
+          this.router.navigate(['/jobs', id]);
+        } else {
+          this.router.navigate(['/my-postings']);
+        }
+      },
+      error: err => {
+        this.error = err.error?.error || 'Failed to create job';
+        this.loading = false;
+      }
     });
   }
 }

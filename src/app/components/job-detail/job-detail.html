@@ -1,144 +1,144 @@
 <div class="container">
-    @if (loading) {
-      <div class="loading">Loading job…</div>
-    } @else if (error && !job) {
-      <div class="error-msg" style="margin-top:40px">{{ error }}</div>
-    } @else if (job) {
-      <div class="job-detail-layout">
-        <div class="job-main">
-          <div class="job-header">
-            <div class="job-meta-top">
-              <span class="job-category">{{ job.category }}</span>
-              <span class="badge badge-{{ job.status }}">{{ job.status.replace('_', ' ') }}</span>
-            </div>
-            <h1 class="job-title">{{ job.title }}</h1>
-            <div class="job-budget">${{ job.budget | number }}</div>
+  @if (loading) {
+    <div class="loading">Loading job…</div>
+  } @else if (error && !job) {
+    <div class="error-msg" style="margin-top:40px">{{ error }}</div>
+  } @else if (job) {
+    <div class="job-detail-layout">
+      <div class="job-main">
+        <div class="job-header">
+          <div class="job-meta-top">
+            <span class="job-category">{{ job.category }}</span>
+            <span class="badge badge-{{ job.status }}">{{ job.status.replace('_', ' ') }}</span>
           </div>
-  
-          @if (successMsg) { <div class="success-msg">{{ successMsg }}</div> }
-          @if (error) { <div class="error-msg">{{ error }}</div> }
-  
-          <div class="section">
-            <h2>Description</h2>
-            <p class="job-description">{{ job.description }}</p>
-          </div>
-  
-          @if (job.owner) {
-            <div class="section">
-              <h2>Posted by</h2>
-              <a [routerLink]="['/profile', job.owner.username]" class="user-chip">
-                <div class="avatar-sm">{{ job.owner.name[0] }}</div>
-                <div>
-                  <div class="user-name">{{ job.owner.name }}</div>
-                  <div class="user-handle">&#64;{{ job.owner.username }}</div>
-                </div>
-              </a>
-            </div>
-          }
-  
-          @if (job.freelance && (isOwner || isFreelance)) {
-            <div class="section">
-              <h2>Assigned Freelance</h2>
-              <a [routerLink]="['/profile', job.freelance.username]" class="user-chip">
-                <div class="avatar-sm">{{ job.freelance.name[0] }}</div>
-                <div>
-                  <div class="user-name">{{ job.freelance.name }}</div>
-                  <div class="user-handle">&#64;{{ job.freelance.username }}</div>
-                </div>
-              </a>
-            </div>
-          }
-  
-          @if (canPropose) {
-            <div class="section">
-              @if (!showProposalForm) {
-                <button class="btn btn-primary" (click)="showProposalForm=true">Submit a Proposal</button>
-              } @else {
-                <h2>Your Proposal</h2>
-                @if (proposalError) { <div class="error-msg">{{ proposalError }}</div> }
-                <div class="form-group">
-                  <label>Your Price ($)</label>
-                  <input type="number" [(ngModel)]="proposalForm.price" placeholder="e.g. 500" min="1" />
-                </div>
-                <div class="form-group">
-                  <label>Cover Letter</label>
-                  <textarea [(ngModel)]="proposalForm.cover_letter" placeholder="Why are you the right person for this job?"></textarea>
-                </div>
-                <div class="form-actions">
-                  <button class="btn btn-primary" (click)="submitProposal()" [disabled]="proposalLoading">
-                    {{ proposalLoading ? 'Submitting…' : 'Submit Proposal' }}
-                  </button>
-                  <button class="btn btn-secondary" (click)="showProposalForm=false">Cancel</button>
-                </div>
-              }
-            </div>
-          }
-  
-          @if (canComplete) {
-            <div class="section">
-              <button class="btn btn-success" (click)="completeJob()">Mark as Completed</button>
-            </div>
-          }
-  
-          @if (canReview) {
-            <div class="section">
-              <h2>Leave a Review</h2>
-              @if (reviewSuccess) { <div class="success-msg">{{ reviewSuccess }}</div> }
-              @if (reviewError) { <div class="error-msg">{{ reviewError }}</div> }
-              @if (!showReviewForm && !reviewSuccess) {
-                @if (isOwner && job.freelance_id) {
-                  <button class="btn btn-primary" (click)="setReviewTarget(false)">Review Freelance</button>
-                }
-                @if (isFreelance && job.owner_id) {
-                  <button class="btn btn-primary" (click)="setReviewTarget(true)">Review Client</button>
-                }
-              }
-              @if (showReviewForm) {
-                <div class="form-group">
-                  <label>Rating</label>
-                  <div class="star-rating">
-                    @for (star of [1,2,3,4,5]; track star) {
-                      <button class="star" [class.active]="star <= reviewForm.rating" (click)="setRating(star)">★</button>
-                    }
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Comment (optional)</label>
-                  <textarea [(ngModel)]="reviewForm.comment" placeholder="Share your experience…"></textarea>
-                </div>
-                <div class="form-actions">
-                  <button class="btn btn-primary" (click)="submitReview()">Submit Review</button>
-                  <button class="btn btn-secondary" (click)="showReviewForm=false">Cancel</button>
-                </div>
-              }
-            </div>
-          }
+          <h1 class="job-title">{{ job.title }}</h1>
+          <div class="job-budget">${{ job.budget | number }}</div>
         </div>
-  
-        @if (isOwner && proposals.length > 0) {
-          <aside class="proposals-panel">
-            <h2>Proposals ({{ proposals.length }})</h2>
-            <div class="proposals-list">
-              @for (p of proposals; track p.id) {
-                <div class="proposal-card">
-                  <div class="proposal-top">
-                    <span class="proposal-price">${{ p.price | number }}</span>
-                    <span class="badge badge-{{ p.status }}">{{ p.status }}</span>
-                  </div>
-                  <p class="proposal-letter">{{ p.cover_letter | slice:0:200 }}…</p>
-                  @if (p.freelance) {
-                    <a [routerLink]="['/profile', p.freelance.username]" class="proposal-user">
-                      &#64;{{ p.freelance.username }}
-                    </a>
-                  }
-                  @if (p.status === 'pending' && job.status === 'open') {
-                    <button class="btn btn-success btn-sm" (click)="acceptProposal(p.id)">Accept</button>
+
+        @if (successMsg) { <div class="success-msg">{{ successMsg }}</div> }
+        @if (error) { <div class="error-msg">{{ error }}</div> }
+
+        <div class="section">
+          <h2>Description</h2>
+          <p class="job-description">{{ job.description }}</p>
+        </div>
+
+        @if (job.owner) {
+          <div class="section">
+            <h2>Posted by</h2>
+            <a [routerLink]="['/profile', job.owner.username]" class="user-chip">
+              <div class="avatar-sm">{{ job.owner.name[0] }}</div>
+              <div>
+                <div class="user-name">{{ job.owner.name }}</div>
+                <div class="user-handle">&#64;{{ job.owner.username }}</div>
+              </div>
+            </a>
+          </div>
+        }
+
+        @if (job.freelance && (isOwner || isFreelance)) {
+          <div class="section">
+            <h2>Assigned Freelancer</h2>
+            <a [routerLink]="['/profile', job.freelance.username]" class="user-chip">
+              <div class="avatar-sm">{{ job.freelance.name[0] }}</div>
+              <div>
+                <div class="user-name">{{ job.freelance.name }}</div>
+                <div class="user-handle">&#64;{{ job.freelance.username }}</div>
+              </div>
+            </a>
+          </div>
+        }
+
+        @if (canPropose) {
+          <div class="section">
+            @if (!showProposalForm) {
+              <button class="btn btn-primary" (click)="showProposalForm=true">Submit a Proposal</button>
+            } @else {
+              <h2>Your Proposal</h2>
+              @if (proposalError) { <div class="error-msg">{{ proposalError }}</div> }
+              <div class="form-group">
+                <label>Your Price ($)</label>
+                <input type="number" [(ngModel)]="proposalForm.price" placeholder="e.g. 500" min="1" />
+              </div>
+              <div class="form-group">
+                <label>Cover Letter</label>
+                <textarea [(ngModel)]="proposalForm.cover_letter" placeholder="Why are you the right person for this job?"></textarea>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary" (click)="submitProposal()" [disabled]="proposalLoading">
+                  {{ proposalLoading ? 'Submitting…' : 'Submit Proposal' }}
+                </button>
+                <button class="btn btn-secondary" (click)="showProposalForm=false">Cancel</button>
+              </div>
+            }
+          </div>
+        }
+
+        @if (canComplete) {
+          <div class="section">
+            <button class="btn btn-success" (click)="completeJob()">Mark as Completed</button>
+          </div>
+        }
+
+        @if (canReview) {
+          <div class="section">
+            <h2>Leave a Review</h2>
+            @if (reviewSuccess) { <div class="success-msg">{{ reviewSuccess }}</div> }
+            @if (reviewError) { <div class="error-msg">{{ reviewError }}</div> }
+            @if (!showReviewForm && !reviewSuccess) {
+              @if (isOwner && (job.freelance_id || job.freelancer_id)) {
+                <button class="btn btn-primary" (click)="setReviewTarget(false)">Review Freelancer</button>
+              }
+              @if (isFreelance) {
+                <button class="btn btn-primary" (click)="setReviewTarget(true)">Review Client</button>
+              }
+            }
+            @if (showReviewForm) {
+              <div class="form-group">
+                <label>Rating</label>
+                <div class="star-rating">
+                  @for (star of [1,2,3,4,5]; track star) {
+                    <button class="star" [class.active]="star <= reviewForm.rating" (click)="setRating(star)">★</button>
                   }
                 </div>
-              }
-            </div>
-          </aside>
+              </div>
+              <div class="form-group">
+                <label>Comment (optional)</label>
+                <textarea [(ngModel)]="reviewForm.comment" placeholder="Share your experience…"></textarea>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary" (click)="submitReview()">Submit Review</button>
+                <button class="btn btn-secondary" (click)="showReviewForm=false">Cancel</button>
+              </div>
+            }
+          </div>
         }
       </div>
-    }
-  </div>
+
+      @if (isOwner && proposals.length > 0) {
+        <aside class="proposals-panel">
+          <h2>Proposals ({{ proposals.length }})</h2>
+          <div class="proposals-list">
+            @for (p of proposals; track p.id) {
+              <div class="proposal-card">
+                <div class="proposal-top">
+                  <span class="proposal-price">${{ p.price | number }}</span>
+                  <span class="badge badge-{{ p.status }}">{{ p.status }}</span>
+                </div>
+                <p class="proposal-letter">{{ p.cover_letter | slice:0:200 }}…</p>
+                @if (p.freelance) {
+                  <a [routerLink]="['/profile', p.freelance.username]" class="proposal-user">
+                    &#64;{{ p.freelance.username }}
+                  </a>
+                }
+                @if (p.status === 'pending' && job.status === 'open') {
+                  <button class="btn btn-success btn-sm" (click)="acceptProposal(p.id)">Accept</button>
+                }
+              </div>
+            }
+          </div>
+        </aside>
+      }
+    </div>
+  }
+</div>

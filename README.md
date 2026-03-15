@@ -14,7 +14,7 @@ Session : Hiver 2026
 
 ## Description
 
-SkillSwap est une application frontend Angular connectée à une API REST déployée sur DigitalOcean. Elle permet aux utilisateurs de publier des offres d'emploi, soumettre des propositions, accepter des collaborations et laisser des avis mutuels.
+SkillSwap est une application frontend Angular connectée à une API REST. Elle permet aux utilisateurs de publier des offres d'emploi, soumettre des propositions, accepter des collaborations et laisser des avis mutuels.
 
 ## Fonctionnalités
 
@@ -30,7 +30,7 @@ SkillSwap est une application frontend Angular connectée à une API REST déplo
 - Angular 19
 - TypeScript
 - SCSS
-- API REST SkillSwap (DigitalOcean)
+- API REST SkillSwap
 
 ## Installation et démarrage
 ```bash
